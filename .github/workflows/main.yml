@@ -43,6 +43,7 @@ jobs:
         run: echo "CD part completed successfully"
       
   Deploy_Artifact:
+    needs: build_and_create_Artifact
     runs-on: ubuntu-latest
     steps: 
      - name: "Configure AWS Credentials"
