@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 'Make zip file'
-        run: zip {{ env.DEPLOY_PACAKAGE_NAME }} index.html
+        run: zip ${{ env.DEPLOY_PACAKAGE_NAME }} index.html
         # -r = recursively, ./=current directory, -x = exclude
         #run: zip -r ${{ env.DEPLOY_PACAKAGE_NAME }} ./ -x *.git*
         
