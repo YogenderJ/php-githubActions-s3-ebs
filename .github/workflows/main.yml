@@ -10,8 +10,8 @@ env:
   EB_PACAKAGE_S3_BUCKET_NAME: "yog.net1"
   EB_APPLICATION_NAME       : "php-app"
   EB_ENVIRONMENT_NAME       : "Phpapp-env"
-#  DEPLOY_PACAKAGE_NAME      : "php-app-${{ github.sha }}.zip"
-  DEPLOY_PACAKAGE_NAME      : "php-app.zip"
+  DEPLOY_PACAKAGE_NAME      : "php-app-${{ github.sha }}.zip"
+#  DEPLOY_PACAKAGE_NAME      : "php-app.zip"
   AWS_REGION_NAME           : "us-west-1"
   
 
@@ -54,13 +54,13 @@ jobs:
            aws-region: ${{ env.AWS_REGION_NAME }}
          
      - name: "Create Elastic Beanstalk Application Version"
-       run :  aws elasticbeanstalk create-application-version --application-name ${{ env.EB_APPLICATION_NAME }} --version-label version@${{ github.sha }} --source-bundle S3Bucket=${{ env.EB_PACAKAGE_S3_BUCKET_NAME }},S3Key=${{ env.DEPLOY_PACAKAGE_NAME }}
-#       run: |
-#          aws elasticbeanstalk create-application-version \
-#          --application-name ${{ env.EB_APPLICATION_NAME }} \
-#          --version-label "version@${{ github.sha }}" \
-#          --source-bundle S3Bucket="${{ env.EB_PACAKAGE_S3_BUCKET_NAME }}", S3Key="${{ env.DEPLOY_PACAKAGE_NAME }}" \
-#          --description "SHA of app is ${{ github.sha }}"
+       #run :  aws elasticbeanstalk create-application-version --application-name ${{ env.EB_APPLICATION_NAME }} --version-label version@${{ github.sha }} --source-bundle S3Bucket=${{ env.EB_PACAKAGE_S3_BUCKET_NAME }},S3Key=${{ env.DEPLOY_PACAKAGE_NAME }}
+       run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name ${{ env.EB_APPLICATION_NAME }} \
+          --version-label "version@${{ github.sha }}" \
+          --source-bundle S3Bucket=${{ env.EB_PACAKAGE_S3_BUCKET_NAME }}, S3Key=${{ env.DEPLOY_PACAKAGE_NAME }} \
+          --description "SHA of app is ${{ github.sha }}"
           
      - name: "Deploy Application Version"
        run: aws elasticbeanstalk update-environment --environment-name ${{ env.EB_ENVIRONMENT_NAME }} --version-label "version@${{ github.sha }}"
