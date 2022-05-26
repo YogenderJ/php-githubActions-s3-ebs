@@ -10,7 +10,8 @@ env:
   EB_PACAKAGE_S3_BUCKET_NAME: "yog.net1"
   EB_APPLICATION_NAME       : "php-app"
   EB_ENVIRONMENT_NAME       : "Phpapp-env"
-  DEPLOY_PACAKAGE_NAME      : "php-app-${{ github.sha }}.zip"
+#  DEPLOY_PACAKAGE_NAME      : "php-app-${{ github.sha }}.zip"
+  DEPLOY_PACAKAGE_NAME      : "php-app.zip"
   AWS_REGION_NAME           : "us-west-1"
   
 
@@ -50,6 +51,7 @@ jobs:
        with:
            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+           aws-region: ${{ env.AWS_REGION_NAME }}
  #aws elasticbeanstalk create-application-version --application-name my-app --version-label v1 --source-bundle S3Bucket=DOC-EXAMPLE-BUCKET,S3Key=my-source-bundle.zip
      - name: "Create Elastic Beanstalk Application Version"
        run: |
