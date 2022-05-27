@@ -53,7 +53,22 @@ jobs:
            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
            aws-region: ${{ env.AWS_REGION_NAME }}
-         
+           
+     - name: 'AWS: Timestamp action'
+       uses: gerred/actions/current-time@master
+       id: current-time
+      
+     - name: 'AWS: String replace action'
+       uses: frabert/replace-string-action@master
+       id: format-time
+       with:
+        pattern: '[:\.]+'
+        string: "${{ steps.current-time.outputs.time }}"
+        replace-with: '-'
+        flags: 'g'
+        
+     - name: Print
+       run: echo '${{ steps.format-time.outputs.replaced }}'        
      - name: "Create Elastic Beanstalk Application Version"
        run :  aws elasticbeanstalk create-application-version --application-name ${{ env.EB_APPLICATION_NAME }} --version-label version@${{ github.sha }} --source-bundle S3Bucket=${{ env.EB_PACAKAGE_S3_BUCKET_NAME }},S3Key=${{ env.DEPLOY_PACAKAGE_NAME }} --description SHA_of_app_is_${{ github.sha }}__Created_at__${{ steps.format-time.outputs.replaced }}
 #       run: |
